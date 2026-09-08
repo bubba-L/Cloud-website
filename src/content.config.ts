@@ -90,7 +90,7 @@ const projects = defineCollection({
 
 export const collections = {
 	tags,
-	posts,
+	//posts,
 	projects,
 	other,
 	quickInfo,

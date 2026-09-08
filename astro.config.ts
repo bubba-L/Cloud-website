@@ -1,6 +1,7 @@
 import mdx from "@astrojs/mdx";
-import node from "@astrojs/node";
 import sitemap from "@astrojs/sitemap";
+//import node from "@astrojs/node";
+import cloudflare from "@astrojs/cloudflare";
 import { defineConfig } from "astro/config";
 import expressiveCode from "astro-expressive-code";
 import { loadEnv } from "vite";
@@ -30,10 +31,10 @@ const config = defineConfig({
 		mdx(),
 		sitemap(),
 		spectre({
-			name: "Spectre",
+			name: "Ben Larkin",
 			openGraph: {
 				home: {
-					title: "Spectre",
+					title: "Ben Larkin",
 					description: "A minimalistic theme for Astro.",
 				},
 				blog: {
@@ -44,7 +45,7 @@ const config = defineConfig({
 					title: "Projects",
 				},
 			},
-			giscus: {
+			/*giscus: {
 				repository: GISCUS_REPO,
 				repositoryId: GISCUS_REPO_ID,
 				category: GISCUS_CATEGORY,
@@ -54,12 +55,13 @@ const config = defineConfig({
 				reactionsEnabled: GISCUS_REACTIONS_ENABLED === "true",
 				emitMetadata: GISCUS_EMIT_METADATA === "true",
 				lang: GISCUS_LANG,
-			},
+			},*/
 		}),
 	],
-	adapter: node({
-		mode: "standalone",
-	}),
+	// 	adapter: node({
+	// 	mode: "standalone",
+	// }),
+	adapter: cloudflare(),
 });
 
 export default config;

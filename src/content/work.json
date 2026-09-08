@@ -1,9 +1,18 @@
 [
 	{
+		"id": 2,
+		"duration": "June 2026 - August 2026",
+		"company": "Upper Merion Area School District",
+		"title": "Technology Intern",
+		"description": "Assisted the technology department with day-to-day IT operations, troubleshooting, maintenance, and technical projects throughout the district. Worked directly with the Assistant Director of Technology through daily hands-on sessions focused on IT systems, tools, and real-world practices. Gained practical experience with technology administration and support while working alongside the district's IT team."
+		
+	},
+	{
 		"id": 1,
-		"duration": "2024 - present",
-		"company": "Astro Community",
-		"title": "Astro Theme",
-		"description": "Existing as an Astro theme for anyone to use."
+		"duration": "June 2026 - August 2026",
+		"company": "North Penn School District",
+		"title": "Technology Intern",
+		"description": "Prepared new Chromebooks for student use by unboxing, installing protective cases, and organizing devices for distribution. Repaired and cleaned previously used Chromebooks to prepare them for continued student use. Organized and managed large quantities of Chromebooks while assisting with the district’s summer device preparation."
 	}
+	
 ]
