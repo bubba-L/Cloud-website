@@ -9,9 +9,10 @@ import Icon from "../components/Icon.astro";
 import ImageGlow from "../components/ImageGlow.astro";
 import Layout from "../layouts/Layout.astro";
 
-const [posts, projects, about, workExperience, quickInfo, socials] =
+const [//posts, 
+		projects, about, workExperience, quickInfo, socials] =
 	await Promise.all([
-		getCollection("posts", (post) => post.data.draft !== true),
+		//getCollection("posts", (post) => post.data.draft !== true),
 		getCollection("projects"),
 		getEntry("other", "about"),
 		getCollection("workExperience"),
@@ -29,14 +30,14 @@ const { Content: About } = await render(about!);
 >
 	<div class="layout-grid-left" slot="left">
 		<Card class="flex-col-card">
-			<ImageGlow
+			<!-- <ImageGlow
 				quality={100}
 				width={120}
 				height={120}
 				src={ProfilePicture}
 				alt="A purple, minimalist looking ghost."
 				loading="eager"
-			/>
+			/> -->
 			<h2>{name}</h2>
 			<ul class="overview-list">
 				{
@@ -61,7 +62,7 @@ const { Content: About } = await render(about!);
 				{
 					socials.map((item) => (
 						<li>
-							<a href={item.data.link} class="socials-link">
+							<a href={item.data.link} class="socials-link" target="_blank" rel="noopener noreferrer">
 								<Icon
 									type={item.data.icon.type}
 									name={item.data.icon.name as any}

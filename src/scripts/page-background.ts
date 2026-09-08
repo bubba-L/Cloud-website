@@ -89,7 +89,8 @@ class PageBackground {
 		this.baseCtx.font = "28px Geist Mono";
 		this.baseCtx.textAlign = "start";
 		this.baseCtx.textBaseline = "top";
-		this.baseCtx.fillStyle = "rgba(255, 255, 255, 0.01)";
+		// this.baseCtx.fillStyle = "rgba(255, 255, 255, 0.01)";
+		this.baseCtx.fillStyle = "rgba(31, 41, 55, 0.08)";
 
 		for (let i = 0; i < lines; i++) {
 			for (let j = 0; j < letters; j++) {
