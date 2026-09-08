@@ -9,16 +9,7 @@
 		"link": "https://github.com/bubba-L"
 	},
 	{
-		"id": 1,
-		"icon": {
-			"type": "lucide",
-			"name": "book-user"
-		},
-		"text": "LinkedIn",
-		"link": "https://www.linkedin.com/in/benjamin-larkin-79034b29b/"
-	},
-	{
-		"id": 1,
+		"id": 2,
 		"icon": {
 			"type": "lucide",
 			"name": "book-user"
