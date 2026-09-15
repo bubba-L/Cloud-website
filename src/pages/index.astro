@@ -62,7 +62,12 @@ const { Content: About } = await render(about!);
 				{
 					socials.map((item) => (
 						<li>
-							<a href={item.data.link} class="socials-link" target="_blank" rel="noopener noreferrer">
+							<a
+								href={item.data.link}
+								class="socials-link"
+								target={item.data.link.includes("spectre.benbenlarkin.workers.dev") ? undefined : "_blank"}
+								rel={item.data.link.includes("spectre.benbenlarkin.workers.dev") ? undefined : "noopener noreferrer"}
+							>
 								<Icon
 									type={item.data.icon.type}
 									name={item.data.icon.name as any}

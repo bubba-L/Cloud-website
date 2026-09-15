@@ -1,0 +1,93 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Card from "../components/Card.astro";
+import Icon from "../components/Icon.astro";
+import { name } from "spectre:globals";
+import "../styles/contact.css";
+---
+
+<Layout
+	title={`Contact | ${name}`}
+	description="Contact Me"
+>
+	<div slot="right">
+		<Card>
+			<div class="header-container">
+				<Icon
+					type="lucide"
+					name="mail"
+					width={24}
+					height={24}
+					class="glow-icon"
+				/>
+				<h2>Contact Me</h2>
+			</div>
+
+			<form id="contact-form">
+				<label for="name">Name</label>
+				<input
+					type="text"
+					id="name"
+					name="name"
+					required
+				/>
+
+				<label for="email">Email</label>
+				<input
+					type="email"
+					id="email"
+					name="email"
+					required
+				/>
+
+				<label for="message">Message</label>
+				<textarea
+					id="message"
+					name="message"
+					rows="6"
+					required
+				></textarea>
+
+				<button type="submit">
+					Send Message
+				</button>
+			</form>
+		</Card>
+	</div>
+</Layout>
+
+<script>
+	const form = document.querySelector("#contact-form") as HTMLFormElement;
+
+	form.addEventListener("submit", async (event) => {
+		event.preventDefault();
+
+		const formData = new FormData(form);
+
+		const data = {
+			name: formData.get("name"),
+			email: formData.get("email"),
+			message: formData.get("message"),
+		};
+
+		try {
+			const response = await fetch("/api/contact", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(data),
+			});
+
+			if (response.ok) {
+				alert("Message sent!");
+				form.reset();
+			} else {
+				alert("Something went wrong. Please try again.");
+			}
+		} catch (error) {
+			console.error(error);
+			alert("Something went wrong. Please try again.");
+		}
+	});
+</script>

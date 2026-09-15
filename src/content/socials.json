@@ -1,6 +1,6 @@
 [
 	{
-		"id": 1,
+		"id": 3,
 		"icon": {
 			"type": "lucide",
 			"name": "github"
@@ -16,5 +16,15 @@
 		},
 		"text": "LinkedIn",
 		"link": "https://www.linkedin.com/in/benjamin-larkin-79034b29b/"
+	},
+	{
+	"id": 1,
+	"icon": {
+		"type": "lucide",
+		"name": "mail"
+	},
+	"text": "Contact Me",
+	"link": "https://spectre.benbenlarkin.workers.dev/contact"
 	}
+	
 ]

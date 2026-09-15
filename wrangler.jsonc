@@ -12,5 +12,12 @@
 	},
 	"observability": {
 		"enabled": true
-	}
+	},
+	"d1_databases": [
+		{
+			"binding": "contacts_db",
+			"database_name": "contacts-db",
+			"database_id": "6c819673-3cec-4020-b230-37bd8685a08e"
+		}
+	]
 }
