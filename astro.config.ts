@@ -22,7 +22,7 @@ const {
 
 // https://astro.build/config
 const config = defineConfig({
-	site: "https://spectre.lou.gg",
+	site: "https://benlarkin.org",
 	output: "static",
 	integrations: [
 		expressiveCode({
