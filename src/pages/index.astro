@@ -152,7 +152,7 @@ const { Content: About } = await render(about!);
 								<div class="post-header">
 									<h3>{project.data.title}</h3>
 									<span class="post-date">
-										{project.data.date.toLocaleDateString()}
+										{project.data.date.toLocaleDateString("en-US", { month: "long", year: "numeric",})}
 									</span>
 								</div>
 								<span>{project.data.description}</span>
@@ -174,7 +174,7 @@ const { Content: About } = await render(about!);
 			</div>
 			<div class="work-experience-container">
 				{
-					workExperience.reverse().map((entry) => (
+					workExperience.map((entry) => (
 						<div class="work-experience-entry">
 							<span class="work-experience-duration">
 								{entry.data.duration}
