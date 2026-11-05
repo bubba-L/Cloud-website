@@ -1,0 +1,46 @@
+
+---
+title: NetCheck - Network Diagnostics
+date: 2026-11-05
+description: A web-based internet speed test using Cloudflare. Measures download speed, upload speed, ping, and jitter, with a connection quality summary.
+image: ../assets/netcheck.png
+info:
+  - text: Open NetCheck
+    link: https://benlarkin.org/netcheck
+    icon:
+      type: lucide
+      name: gauge
+---
+
+
+
+NetCheck is a simple web application that allows users to test their internet connection directly from their browser.
+
+The application uses Cloudflare's speed testing library to measure download speed, upload speed, latency (ping), and jitter. It also analyzes the results to provide a basic connection quality rating.
+
+## Features
+
+- **Download Speed:** Measures how quickly data can be received.
+- **Upload Speed:** Measures how quickly data can be sent.
+- **Ping:** Measures network latency.
+- **Jitter:** Measures variations in latency.
+- **Connection Quality:** Provides a simple description of the connection based on download speed.
+
+## Technologies Used
+
+- Astro
+- HTML, CSS, and JavaScript
+- Cloudflare Workers
+- Cloudflare Speed Test Library
+
+## Try NetCheck
+
+[Launch NetCheck](/netcheck)
+
+## How It Works
+
+When the user starts a speed test, the application uses Cloudflare's speed testing library to measure network performance.
+
+After the test finishes, JavaScript displays the results and calculates a connection quality rating based on the download speed.
+
+The application runs directly in the browser and does not require a user account or database.

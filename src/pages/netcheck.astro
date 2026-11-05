@@ -1,0 +1,306 @@
+
+---
+import Layout from "../layouts/Layout.astro";
+import Card from "../components/Card.astro";
+import Icon from "../components/Icon.astro";
+
+// Import the styling used by the main website
+import "../styles/index.css";
+---
+
+<!-- Use the website's existing layout and navigation -->
+<Layout
+  title="NetCheck | Ben Larkin"
+  description="Internet speed test and network diagnostics"
+>
+  <!-- Left column: Information about NetCheck -->
+  <div class="layout-grid-left" slot="left">
+
+    <Card>
+      <div class="header-container">
+        <Icon
+          type="lucide"
+          name="wifi"
+          width={24}
+          height={24}
+          class="glow-icon"
+        />
+        <h2>NetCheck</h2>
+      </div>
+
+      <p>Test your internet connection and see how well it performs.</p>
+    </Card>
+
+    <Card>
+      <h3>About This Tool</h3>
+      <p>
+        NetCheck measures download speed, upload speed,
+        ping, and jitter using Cloudflare's speed test service.
+      </p>
+      <p>
+        It also provides a simple rating of your connection quality.
+      </p>
+    </Card>
+
+  </div>
+
+  <!-- Right column: Speed test and results -->
+  <div class="layout-grid-right" slot="right">
+
+    <Card>
+      <div class="header-container">
+        <Icon
+          type="lucide"
+          name="gauge"
+          width={24}
+          height={24}
+          class="glow-icon"
+        />
+        <h2>Internet Speed Test</h2>
+      </div>
+
+      <!-- Each result has its own ID so JavaScript can update it -->
+      <div class="speed-grid">
+        <div class="result-box">
+          <h3>Download</h3>
+          <p class="speed-number" id="download">--</p>
+          <span>Mbps</span>
+        </div>
+
+        <div class="result-box">
+          <h3>Upload</h3>
+          <p class="speed-number" id="upload">--</p>
+          <span>Mbps</span>
+        </div>
+
+        <div class="result-box">
+          <h3>Ping</h3>
+          <p class="small-number">
+            <span id="ping">--</span> ms
+          </p>
+        </div>
+
+        <div class="result-box">
+          <h3>Jitter</h3>
+          <p class="small-number">
+            <span id="jitter">--</span> ms
+          </p>
+        </div>
+      </div>
+
+      <!-- Button starts the speed test using JavaScript -->
+      <div class="test-controls">
+        <button id="startBtn" type="button">
+          Start Speed Test
+        </button>
+
+        <p id="status">Ready to test your connection.</p>
+      </div>
+    </Card>
+
+    <!-- Hidden until the speed test finishes -->
+    <div id="quality" hidden>
+      <Card>
+        <div class="header-container">
+          <Icon
+            type="lucide"
+            name="activity"
+            width={24}
+            height={24}
+            class="glow-icon"
+          />
+          <h2>Connection Quality</h2>
+        </div>
+
+        <h3 id="rating">--</h3>
+        <p id="description"></p>
+      </Card>
+    </div>
+
+  </div>
+</Layout>
+
+<script>
+  // Cloudflare library handles the actual speed measurements
+  import SpeedTest from "@cloudflare/speedtest";
+
+  // Get the page elements that JavaScript will interact with
+  const button = document.getElementById("startBtn") as HTMLButtonElement;
+  const status = document.getElementById("status")!;
+  const quality = document.getElementById("quality")!;
+
+  // Create the test, but wait for the user to click Start
+  const test = new SpeedTest({ autoStart: false });
+
+  // When the button is clicked, disable it and start measuring
+  button.addEventListener("click", () => {
+    button.disabled = true;
+    button.textContent = "Testing...";
+    status.textContent = "Testing your connection...";
+    quality.hidden = true;
+
+    // Restart allows the same test to be run multiple times
+    test.restart();
+  });
+
+  // This function runs automatically when Cloudflare finishes testing
+  test.onFinish = (data) => {
+
+    // Get the measurements returned by Cloudflare
+    const download = data.getDownloadBandwidth();
+    const upload = data.getUploadBandwidth();
+    const ping = data.getUnloadedLatency();
+    const jitter = data.getUnloadedJitter();
+
+    // Convert download/upload from bits per second into Mbps
+    // If a measurement is unavailable, keep it as null
+    const downloadSpeed = download == null ? null : download / 1000000;
+    const uploadSpeed = upload == null ? null : upload / 1000000;
+
+    // Display the results, rounded to two decimal places
+    // Show "--" if Cloudflare did not return a measurement
+    document.getElementById("download")!.textContent =
+      downloadSpeed?.toFixed(2) ?? "--";
+
+    document.getElementById("upload")!.textContent =
+      uploadSpeed?.toFixed(2) ?? "--";
+
+    document.getElementById("ping")!.textContent =
+      ping?.toFixed(2) ?? "--";
+
+    document.getElementById("jitter")!.textContent =
+      jitter?.toFixed(2) ?? "--";
+
+    // Get the HTML elements used for the quality summary
+    const rating = document.getElementById("rating")!;
+    const description = document.getElementById("description")!;
+
+    // Give the connection a basic rating based on download speed
+    // These are simple estimates, not guaranteed performance levels
+    if (downloadSpeed === null) {
+      rating.textContent = "Unavailable";
+      description.textContent =
+        "There was not enough data to rate this connection.";
+    } else if (downloadSpeed < 5) {
+      rating.textContent = "Slow Connection";
+      description.textContent =
+        "Good for basic browsing and messaging. Streaming and downloads may be slow.";
+    } else if (downloadSpeed < 25) {
+      rating.textContent = "Moderate Connection";
+      description.textContent =
+        "Good for browsing, music streaming, and some HD video.";
+    } else if (downloadSpeed < 100) {
+      rating.textContent = "Fast Connection";
+      description.textContent =
+        "Good for HD streaming, video calls, and downloading files.";
+    } else {
+      rating.textContent = "Very Fast Connection";
+      description.textContent =
+        "Great for 4K streaming, large downloads, and multiple devices.";
+    }
+
+    // Show the quality summary and let the user run another test
+    quality.hidden = false;
+    status.textContent = "Speed test complete!";
+
+    button.disabled = false;
+    button.textContent = "Run Again";
+  };
+
+  // Log any measurement errors to help with troubleshooting
+  test.onError = (error) => {
+    console.error("Speed test error:", error);
+    status.textContent = "A measurement error occurred. Check the console.";
+  };
+</script>
+
+<style>
+  /* Arrange the four measurements into a two-column grid */
+  .speed-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 25px;
+  }
+
+  /* Individual boxes for each measurement */
+  .result-box {
+    border: 1px solid var(--color-border, #d1d5db);
+    padding: 20px;
+    text-align: center;
+  }
+
+  .result-box h3 {
+    margin-top: 0;
+    font-size: 16px;
+  }
+
+  /* Larger blue numbers for download and upload */
+  .speed-number {
+    font-size: 42px;
+    font-weight: bold;
+    color: #2563eb;
+    margin: 10px 0;
+  }
+
+  .small-number {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 0;
+  }
+
+  /* Center the test button and status message */
+  .test-controls {
+    text-align: center;
+    padding-top: 25px;
+  }
+
+  #startBtn {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  #startBtn:hover {
+    background: #1d4ed8;
+  }
+
+  /* Prevent multiple tests from starting at once */
+  #startBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  #status {
+    margin-bottom: 0;
+    opacity: 0.7;
+  }
+
+  /* Highlight the connection quality rating */
+  #rating {
+    color: #2563eb;
+  }
+
+  #description {
+    line-height: 1.6;
+  }
+
+  /* Keep the connection quality card hidden before testing */
+  #quality[hidden] {
+    display: none;
+  }
+
+  /* Adjust the results for smaller screens */
+  @media (max-width: 500px) {
+    .speed-number {
+      font-size: 30px;
+    }
+
+    .result-box {
+      padding: 12px;
+    }
+  }
+</style>
